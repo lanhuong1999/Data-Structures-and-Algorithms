@@ -32,7 +32,7 @@ Matrix expmt(Matrix a, int b){
 }
 int main()
 {
-    freopen("input.txt","r",stdin);
+    //freopen("input.txt","r",stdin);
     for (int i = 0; i < 100; i++)
     {
         for (int j = 0; j < 100; j++)
