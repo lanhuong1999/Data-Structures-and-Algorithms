@@ -1,28 +1,48 @@
 #include <bits/stdc++.h>
-
 using namespace std;
-int ktra(string s){
-    stack<char> st;
-    for(int i=0;i<s.length();i++){
-        if(s[i]=='(')
-            st.push(s[i]);
-        if(s[i]==')'){
-            if(st.empty()||st.top()!='('){
-                return 0;
-            }
-            st.pop();
-        }
-    }
-    return 1;
+// (()))()(
+// (())()(
+// ()())((
+// )())((
+// (())()
+
+int dem = 0;
+void del (string S, int last_bracket, int first_bracket, char A, char B){
+	int count = 0;
+	int i = last_bracket;
+	while (i < S.length() && count >= 0){
+		if (S[i] == A) count++;
+		if (S[i] == B) count--;
+		i++;
+	}
+	if (count >= 0) {
+		reverse(S.begin(),S.end());
+		if (A == '(') del (S,0,0,')','(');
+		else {
+			if (S.size() > 1) {
+				dem++;
+				cout << S << " ";
+			}
+		}
+	} else {
+		i = i - 1;
+		for (int j = first_bracket ; j <= i ; j++){
+			if (S[j] == B && (j == first_bracket || S[j-1] != B)){
+				del (S.substr(0,j)+S.substr(j+1,S.length()-j),i,j,A,B);
+			}
+		}
+	}
 }
-int main()
-{
+
+int main (){
     freopen("input.txt","r",stdin);
-    int t;cin>>t;
-    while(t--){
-        string s;
-        cin>>s;
-        cout<<ktra(s);
-    }
-    return 0;
+	int T; cin >> T;
+	while (T--){
+		string S; cin >> S;
+		del (S,0,0,'(',')');
+		if (dem == 0) cout << -1;
+		cout << endl;
+		dem = 0;
+	}
+	return 0;
 }
